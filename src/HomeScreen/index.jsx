@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -35,6 +35,10 @@ const HomeScreen = React.memo(({ navigation }) => {
   useKeepAwake();
   const { baniLengthSelector } = useBaniLength();
   const dispatch = useDispatch();
+  
+  const [showBottomNav, setShowBottomNav] = useState(true);
+  const scrollY = useRef(0);
+  const scrollDirection = useRef(null);
 
   useEffect(() => {
     const validLanguages = getLanguages(STRINGS);
@@ -55,6 +59,23 @@ const HomeScreen = React.memo(({ navigation }) => {
   useEffect(() => {
     const order = validateBaniOrder(baniOrder);
     dispatch(setBaniOrder(order));
+  }, []);
+
+  const handleScroll = useCallback((event) => {
+    const currentScrollY = event.nativeEvent.contentOffset.y;
+    const delta = currentScrollY - scrollY.current;
+
+    if (delta > 10 && scrollDirection.current !== "down") {
+      // Scrolling down
+      scrollDirection.current = "down";
+      setShowBottomNav(false);
+    } else if (delta < -10 && scrollDirection.current !== "up") {
+      // Scrolling up
+      scrollDirection.current = "up";
+      setShowBottomNav(true);
+    }
+
+    scrollY.current = currentScrollY;
   }, []);
 
   const onPress = (row) => {
@@ -87,9 +108,9 @@ const HomeScreen = React.memo(({ navigation }) => {
       <StatusBarComponent backgroundColor={theme.colors.primary} />
       <View style={[{ backgroundColor: theme.colors.surface }, styles.container]}>
         <BaniHeader navigate={navigate} />
-        <BaniList data={baniListData} onPress={onPress} />
+        <BaniList data={baniListData} onPress={onPress} onScroll={handleScroll} />
       </View>
-      <BottomNavigation activeKey="Home" context="home" />
+      <BottomNavigation activeKey="Home" context="home" visible={showBottomNav} />
     </SafeArea>
   );
 });

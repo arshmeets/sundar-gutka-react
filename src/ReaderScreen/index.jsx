@@ -48,7 +48,9 @@ const Reader = ({ navigation, route }) => {
   const [shouldNavigateBack, setShouldNavigateBack] = useState(false);
   const [dateKey, setDateKey] = useState(Date.now().toString());
   const [titleText, setTitleText] = useState(null);
+  const [showBottomNav, setShowBottomNav] = useState(true);
   const currentElementIdRef = useRef(null);
+  const lastScrollY = useRef(0);
 
   const dispatch = useDispatch();
   const { shabad, isLoading } = useFetchShabad(id);
@@ -178,6 +180,20 @@ const Reader = ({ navigation, route }) => {
         toggleHeader(true);
       } else if (data === "hide") {
         toggleHeader(false);
+      } else if (data.includes("scroll-position-")) {
+        // Handle scroll position updates from WebView
+        const scrollY = parseInt(data.split("scroll-position-")[1], 10);
+        const delta = scrollY - lastScrollY.current;
+        
+        if (delta > 50) {
+          // Scrolling down
+          setShowBottomNav(false);
+        } else if (delta < -50) {
+          // Scrolling up
+          setShowBottomNav(true);
+        }
+        
+        lastScrollY.current = scrollY;
       } else if (data.includes("scroll-elementId-")) {
         // Capture element ID from WebView scroll events
         const elementId = data.split("scroll-elementId-")[1];
@@ -287,7 +303,7 @@ const Reader = ({ navigation, route }) => {
         {isAutoScroll && <AutoScrollComponent shabadID={id} webViewRef={webViewRef} />}
       </Animated.View>
 
-      <BottomNavigation activeKey={isAudio ? "Music" : "Read"} context="reader" />
+      <BottomNavigation activeKey={isAudio ? "Music" : "Read"} context="reader" visible={showBottomNav} />
     </SafeArea>
   );
 };

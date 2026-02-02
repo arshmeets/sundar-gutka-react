@@ -9,7 +9,7 @@ import useTheme from "@common/context";
 import useThemedStyles from "@common/hooks/useThemedStyles";
 import { convertToUnicode, baseFontSize, ListItemTitle } from "@common";
 
-const BaniList = React.memo(({ data, onPress }) => {
+const BaniList = React.memo(({ data, onPress, onScroll }) => {
   const { theme } = useTheme();
   const styles = useThemedStyles(createStyles);
   const fontSize = useSelector((state) => state.fontSize);
@@ -95,6 +95,8 @@ const BaniList = React.memo(({ data, onPress }) => {
       data={data}
       renderItem={renderBanis}
       keyExtractor={(item) => item.gurmukhi}
+      onScroll={onScroll}
+      scrollEventThrottle={16}
     />
   );
 });
@@ -110,6 +112,7 @@ BaniList.propTypes = {
     })
   ).isRequired,
   onPress: PropTypes.func.isRequired,
+  onScroll: PropTypes.func,
 };
 
 export default BaniList;

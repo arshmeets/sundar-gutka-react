@@ -25,6 +25,11 @@ const scrollFunc=(e)=> {
   if (elementId) {
     window.ReactNativeWebView.postMessage("scroll-elementId-" + elementId);
   }
+  
+  // Send scroll position for bottom nav visibility
+  const scrollY = window.pageYOffset || window.scrollY;
+  window.ReactNativeWebView.postMessage("scroll-position-" + Math.round(scrollY));
+  
   if (window.scrollY == 0) {
     window.ReactNativeWebView.postMessage("show");
   }

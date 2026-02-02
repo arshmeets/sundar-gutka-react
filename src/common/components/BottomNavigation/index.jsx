@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { View, Pressable } from "react-native";
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import { View, Pressable, Animated } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
@@ -9,7 +9,7 @@ import { HomeIcon, SettingsIcon, MusicIcon, ReadIcon, DashboardIcon, SevaIcon } 
 import { CustomText, actions, constant, STRINGS, SafeArea } from "@common";
 import createStyles from "./style";
 
-const BottomNavigation = ({ activeKey, context = "home" }) => {
+const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { theme } = useTheme();
@@ -17,12 +17,22 @@ const BottomNavigation = ({ activeKey, context = "home" }) => {
   const isAudio = useSelector((state) => state.isAudio);
   const [isSettings, setIsSettings] = useState(false);
   const [previousRouteName, setPreviousRouteName] = useState(null);
+  const translateY = useRef(new Animated.Value(0)).current;
 
   // Helper function to get current route name
   const getCurrentRouteName = useCallback(() => {
     const navState = navigation.getState();
     return navState?.routes[navState?.index]?.name;
   }, [navigation]);
+
+  // Animate visibility
+  useEffect(() => {
+    Animated.timing(translateY, {
+      toValue: visible ? 0 : 100,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  }, [visible, translateY]);
 
   useEffect(() => {
     const updateIsSettings = () => {
@@ -175,41 +185,48 @@ const BottomNavigation = ({ activeKey, context = "home" }) => {
     : navigationItems;
 
   return (
-    <SafeArea backgroundColor={theme.colors.primary} edges={["bottom"]} flex={0}>
-      <View style={[styles.container]}>
-        <View style={styles.navigationBar}>
-          {filteredNavigationItems.map((item) => {
-            const IconComponent = item.icon;
+    <Animated.View
+      style={{
+        transform: [{ translateY }],
+      }}
+    >
+      <SafeArea backgroundColor={theme.colors.primary} edges={["bottom"]} flex={0}>
+        <View style={[styles.container]}>
+          <View style={styles.navigationBar}>
+            {filteredNavigationItems.map((item) => {
+              const IconComponent = item.icon;
 
-            return (
-              <Pressable
-                key={item.key}
-                style={[styles.iconContainer, item.key === activeKey && styles.activeIconContainer]}
-                onPress={item.handlePress}
-                accessibilityRole="button"
-                accessibilityLabel={`bottomnav-${item.key}`}
-              >
-                <IconComponent
-                  size={24}
-                  color={
-                    item.key === activeKey ? theme.colors.primary : theme.staticColors.WHITE_COLOR
-                  }
-                />
-                {activeKey !== item.key && (
-                  <CustomText style={styles.iconText}>{item.text}</CustomText>
-                )}
-              </Pressable>
-            );
-          })}
+              return (
+                <Pressable
+                  key={item.key}
+                  style={[styles.iconContainer, item.key === activeKey && styles.activeIconContainer]}
+                  onPress={item.handlePress}
+                  accessibilityRole="button"
+                  accessibilityLabel={`bottomnav-${item.key}`}
+                >
+                  <IconComponent
+                    size={24}
+                    color={
+                      item.key === activeKey ? theme.colors.primary : theme.staticColors.WHITE_COLOR
+                    }
+                  />
+                  {activeKey !== item.key && (
+                    <CustomText style={styles.iconText}>{item.text}</CustomText>
+                  )}
+                </Pressable>
+              );
+            })}
+          </View>
         </View>
-      </View>
-    </SafeArea>
+      </SafeArea>
+    </Animated.View>
   );
 };
 
 BottomNavigation.propTypes = {
   activeKey: PropTypes.string.isRequired,
   context: PropTypes.oneOf(["home", "reader"]),
+  visible: PropTypes.bool,
 };
 
 export default BottomNavigation;
