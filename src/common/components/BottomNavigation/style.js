@@ -7,27 +7,30 @@ const createStyles = (theme) => ({
   },
   navigationBar: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    width: "85%",
+    justifyContent: "space-between",
+    width: "95%",
     marginLeft: "auto",
     marginRight: "auto",
-    gap: 25,
+    paddingHorizontal: 8,
   },
   iconContainer: {
-    flexBasis: 50,
+    flex: 1,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
+    maxWidth: 80,
   },
   activeIconContainer: {
     backgroundColor: theme.staticColors.WHITE_COLOR,
     borderRadius: 15,
-    padding: theme.spacing.lg,
+    paddingVertical: 8,
+    paddingHorizontal: 12,
   },
   iconText: {
-    fontSize: theme.typography.sizes.sm,
+    fontSize: theme.typography.sizes.xs,
     color: theme.staticColors.WHITE_COLOR,
     fontFamily: theme.typography.fonts.balooPaaji,
+    marginTop: 2,
   },
 });
 

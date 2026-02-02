@@ -36,7 +36,7 @@ import VishraamComponent from "./components/vishraam";
 import useHeader from "./hooks/useHeader";
 import createStyles from "./styles";
 
-const Settings = ({ navigation }) => {
+const Settings = ({ navigation, route }) => {
   useHeader(navigation);
   useBackHandler();
   const isDatabaseUpdateAvailable = useSelector((state) => state.isDatabaseUpdateAvailable);
@@ -48,6 +48,22 @@ const Settings = ({ navigation }) => {
   const { DISPLAY_OPTIONS, BANI_OPTIONS, OTHER_OPTIONS } = STRINGS;
   const language = useSelector((state) => state.language);
   const { about, databaseUpdate } = STRINGS;
+  
+  // Determine context based on navigation state
+  const [context, setContext] = React.useState("home");
+  
+  useEffect(() => {
+    const state = navigation.getState?.();
+    if (state && state.index > 0) {
+      const prevRoute = state.routes[state.index - 1];
+      if (prevRoute?.name === "Reader") {
+        setContext("reader");
+      } else {
+        setContext("home");
+      }
+    }
+  }, [navigation]);
+  
   useEffect(() => {
     navigation.setOptions({
       title: STRINGS.settings,
@@ -99,13 +115,18 @@ const Settings = ({ navigation }) => {
         />
         <CustomText style={end} />
       </ScrollView>
-      <BottomNavigation activeKey="Settings" />
+      <BottomNavigation activeKey="Settings" context={context} />
     </SafeArea>
   );
 };
 
 Settings.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func, setOptions: PropTypes.func }).isRequired,
+  navigation: PropTypes.shape({ 
+    navigate: PropTypes.func, 
+    setOptions: PropTypes.func,
+    getState: PropTypes.func,
+  }).isRequired,
+  route: PropTypes.shape(),
 };
 
 export default Settings;

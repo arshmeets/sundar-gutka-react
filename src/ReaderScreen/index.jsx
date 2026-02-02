@@ -287,7 +287,7 @@ const Reader = ({ navigation, route }) => {
         {isAutoScroll && <AutoScrollComponent shabadID={id} webViewRef={webViewRef} />}
       </Animated.View>
 
-      <BottomNavigation activeKey={isAudio ? "Music" : "Read"} />
+      <BottomNavigation activeKey={isAudio ? "Music" : "Read"} context="reader" />
     </SafeArea>
   );
 };

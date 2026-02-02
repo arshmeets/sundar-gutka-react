@@ -5,11 +5,11 @@ import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import useTheme from "@common/context";
 import useThemedStyles from "@common/hooks/useThemedStyles";
-import { HomeIcon, SettingsIcon, MusicIcon, ReadIcon } from "@common/icons";
+import { HomeIcon, SettingsIcon, MusicIcon, ReadIcon, DashboardIcon, SevaIcon } from "@common/icons";
 import { CustomText, actions, constant, STRINGS, SafeArea } from "@common";
 import createStyles from "./style";
 
-const BottomNavigation = ({ activeKey }) => {
+const BottomNavigation = ({ activeKey, context = "home" }) => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
   const { theme } = useTheme();
@@ -74,7 +74,43 @@ const BottomNavigation = ({ activeKey }) => {
     };
   }, [navigation]);
 
-  const navigationItems = [
+  // Define navigation items based on context
+  const homeNavigationItems = [
+    {
+      key: "Home",
+      icon: HomeIcon,
+      handlePress: () => {
+        navigation.navigate("Home");
+      },
+      text: STRINGS.HOME,
+    },
+    {
+      key: "Dashboard",
+      icon: DashboardIcon,
+      handlePress: () => {
+        navigation.navigate(constant.DASHBOARD);
+      },
+      text: STRINGS.DASHBOARD,
+    },
+    {
+      key: "Seva",
+      icon: SevaIcon,
+      handlePress: () => {
+        navigation.navigate(constant.SEVA);
+      },
+      text: STRINGS.SEVA,
+    },
+    {
+      key: "Settings",
+      icon: SettingsIcon,
+      handlePress: () => {
+        navigation.navigate(constant.SETTINGS);
+      },
+      text: STRINGS.SETTINGS,
+    },
+  ];
+
+  const readerNavigationItems = [
     {
       key: "Home",
       icon: HomeIcon,
@@ -129,8 +165,11 @@ const BottomNavigation = ({ activeKey }) => {
     },
   ];
 
-  // Filter out Read and Music when on Settings page, but keep them if previous route was Read
-  const shouldHideReadAndMusic = isSettings && previousRouteName !== constant.READER;
+  // Choose navigation items based on context
+  const navigationItems = context === "reader" ? readerNavigationItems : homeNavigationItems;
+
+  // Filter out Read and Music when on Settings page in reader context, but keep them if previous route was Read
+  const shouldHideReadAndMusic = context === "reader" && isSettings && previousRouteName !== constant.READER;
   const filteredNavigationItems = shouldHideReadAndMusic
     ? navigationItems.filter((item) => item.key !== "Read" && item.key !== "Music")
     : navigationItems;
@@ -170,6 +209,7 @@ const BottomNavigation = ({ activeKey }) => {
 
 BottomNavigation.propTypes = {
   activeKey: PropTypes.string.isRequired,
+  context: PropTypes.oneOf(["home", "reader"]),
 };
 
 export default BottomNavigation;

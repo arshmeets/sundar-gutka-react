@@ -14,6 +14,7 @@ import {
   StatusBarComponent,
   SafeArea,
   STRINGS,
+  BottomNavigation,
 } from "@common";
 import { setBaniOrder } from "../common/actions";
 import { getLanguages } from "../Settings/components/comon/strings";
@@ -82,12 +83,13 @@ const HomeScreen = React.memo(({ navigation }) => {
   return baniLengthSelector ? (
     <BaniLengthSelector />
   ) : (
-    <SafeArea backgroundColor={theme.colors.surface} edges={["bottom", "left", "right"]}>
+    <SafeArea backgroundColor={theme.colors.surface} edges={["left", "right"]}>
       <StatusBarComponent backgroundColor={theme.colors.primary} />
       <View style={[{ backgroundColor: theme.colors.surface }, styles.container]}>
         <BaniHeader navigate={navigate} />
         <BaniList data={baniListData} onPress={onPress} />
       </View>
+      <BottomNavigation activeKey="Home" context="home" />
     </SafeArea>
   );
 });

@@ -6,11 +6,13 @@ import AboutScreen from "../AboutScreen";
 import Bookmarks from "../Bookmarks";
 import { trackScreenView } from "../common/firebase/analytics";
 import DatabaseUpdateScreen from "../DatabaseUpdate";
+import DashboardScreen from "../DashboardScreen";
 import EditBaniOrder from "../EditBaniOrder";
 import FolderScreen from "../FolderScreen";
 import HomeScreen from "../HomeScreen";
 import ReaderScreen from "../ReaderScreen";
 import Settings from "../Settings";
+import SevaScreen from "../SevaScreen";
 import ReminderOptions from "../Settings/components/reminders/ReminderOptions";
 
 const Stack = createNativeStackNavigator();
@@ -79,6 +81,8 @@ const Navigation = () => {
           component={HomeScreen}
         />
         <Stack.Screen name="Reader" component={ReaderScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Dashboard" component={DashboardScreen} options={{ headerShown: false }} />
+        <Stack.Screen name="Seva" component={SevaScreen} options={{ headerShown: false }} />
         <Stack.Screen name="Settings" component={Settings} />
         <Stack.Screen name="About" component={AboutScreen} />
         <Stack.Screen name="FolderScreen" component={FolderScreen} />
