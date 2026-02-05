@@ -1,17 +1,11 @@
-import React, { useEffect } from "react";
-import { StatusBar, ScrollView } from "react-native";
+import React, { useEffect, useCallback } from "react";
+import { StatusBar, ScrollView, View, Pressable } from "react-native";
 import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
 import useTheme from "@common/context";
 import useThemedStyles from "@common/hooks/useThemedStyles";
-import {
-  STRINGS,
-  StatusBarComponent,
-  SafeArea,
-  CustomText,
-  BottomNavigation,
-  useBackHandler,
-} from "@common";
+import { STRINGS, StatusBarComponent, SafeArea, CustomText, useBackHandler } from "@common";
+import { BackArrowIcon } from "@common/icons";
 import Audio from "./components/audio";
 import AutoScroll from "./components/autoScroll";
 import BaniLengthComponent from "./components/baniLength";
@@ -33,12 +27,16 @@ import ThemeComponent from "./components/theme";
 import TranslationComponent from "./components/translation";
 import TransliterationComponent from "./components/transliteration";
 import VishraamComponent from "./components/vishraam";
-import useHeader from "./hooks/useHeader";
 import createStyles from "./styles";
 
-const Settings = ({ navigation, route }) => {
-  useHeader(navigation);
-  useBackHandler();
+const Settings = ({ navigation }) => {
+  // Custom back handler to navigate to Home instead of goBack (since Settings is now a tab)
+  const handleBackPress = useCallback(() => {
+    navigation.navigate("Home");
+    return true;
+  }, [navigation]);
+
+  useBackHandler(handleBackPress);
   const isDatabaseUpdateAvailable = useSelector((state) => state.isDatabaseUpdateAvailable);
 
   const { navigate } = navigation;
@@ -48,32 +46,19 @@ const Settings = ({ navigation, route }) => {
   const { DISPLAY_OPTIONS, BANI_OPTIONS, OTHER_OPTIONS } = STRINGS;
   const language = useSelector((state) => state.language);
   const { about, databaseUpdate } = STRINGS;
-  
-  // Determine context based on navigation state
-  const [context, setContext] = React.useState("home");
-  
-  useEffect(() => {
-    const state = navigation.getState?.();
-    if (state && state.index > 0) {
-      const prevRoute = state.routes[state.index - 1];
-      if (prevRoute?.name === "Reader") {
-        setContext("reader");
-      } else {
-        setContext("home");
-      }
-    }
-  }, [navigation]);
-  
-  useEffect(() => {
-    navigation.setOptions({
-      title: STRINGS.settings,
-      headerTitleStyle: styles.headerTitleStyle,
-    });
-  }, [language]);
 
   return (
     <SafeArea backgroundColor={theme.colors.surface} edges={["left", "right"]}>
-      <StatusBarComponent backgroundColor={theme.colors.surface} />
+      <StatusBarComponent backgroundColor={theme.colors.primary} />
+      <SafeArea backgroundColor={theme.colors.primary} edges={["top"]} flex={0}>
+        <View style={styles.header}>
+          <Pressable onPress={handleBackPress} style={styles.backButton}>
+            <BackArrowIcon size={25} color={theme.staticColors.WHITE_COLOR} />
+          </Pressable>
+          <CustomText style={styles.headerTitle}>{STRINGS.settings}</CustomText>
+          <View style={styles.headerSpacer} />
+        </View>
+      </SafeArea>
 
       {isDatabaseUpdateAvailable && <DatabaseUpdateBanner navigate={navigate} />}
       <ScrollView>
@@ -115,18 +100,16 @@ const Settings = ({ navigation, route }) => {
         />
         <CustomText style={end} />
       </ScrollView>
-      <BottomNavigation activeKey="Settings" context={context} />
     </SafeArea>
   );
 };
 
 Settings.propTypes = {
-  navigation: PropTypes.shape({ 
-    navigate: PropTypes.func, 
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
     setOptions: PropTypes.func,
     getState: PropTypes.func,
   }).isRequired,
-  route: PropTypes.shape(),
 };
 
 export default Settings;

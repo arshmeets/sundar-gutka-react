@@ -7,7 +7,6 @@ import {
   CustomText,
   useTheme,
   useThemedStyles,
-  BottomNavigation,
   STRINGS,
   constant,
 } from "@common";
@@ -23,7 +22,7 @@ const SevaScreen = ({ navigation }) => {
   const [frequency, setFrequency] = useState("Monthly");
 
   const handleBackPress = () => {
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   const getFrequencyText = () => {
@@ -74,18 +73,20 @@ const SevaScreen = ({ navigation }) => {
 
           {/* Description */}
           <CustomText style={styles.description}>
-            Is built by volunteers at <CustomText style={styles.link}>Khalis Foundation</CustomText>, a non
-            profit organization that builds software like Sundar Gutka and{" "}
-            <CustomText style={styles.link}>SikhiToTheMax</CustomText>. Khalis helps millions of
-            Sikhs around the world connect with Gurbani. You can be part of this seva as well;
-            serve millions with a single donation.
+            Is built by volunteers at{" "}
+            <CustomText style={styles.link}>Khalis Foundation</CustomText>, a
+            non profit organization that builds software like Sundar Gutka and{" "}
+            <CustomText style={styles.link}>SikhiToTheMax</CustomText>. Khalis
+            helps millions of Sikhs around the world connect with Gurbani. You
+            can be part of this seva as well; serve millions with a single
+            donation.
           </CustomText>
 
           {/* Amount Display */}
           <View style={styles.amountContainer}>
             <CustomText style={styles.currency}>$</CustomText>
             <CustomText style={styles.amountDisplay}>
-              {isOtherSelected ? (customAmount || "0") : selectedAmount}
+              {isOtherSelected ? customAmount || "0" : selectedAmount}
             </CustomText>
           </View>
           <CustomText style={styles.perMonth}>{getFrequencyText()}</CustomText>
@@ -97,7 +98,9 @@ const SevaScreen = ({ navigation }) => {
                 key={amount}
                 style={[
                   styles.amountButton,
-                  selectedAmount === amount && !isOtherSelected && styles.amountButtonSelected,
+                  selectedAmount === amount &&
+                    !isOtherSelected &&
+                    styles.amountButtonSelected,
                 ]}
                 onPress={() => {
                   setSelectedAmount(amount);
@@ -108,7 +111,9 @@ const SevaScreen = ({ navigation }) => {
                 <CustomText
                   style={[
                     styles.amountButtonText,
-                    selectedAmount === amount && !isOtherSelected && styles.amountButtonTextSelected,
+                    selectedAmount === amount &&
+                      !isOtherSelected &&
+                      styles.amountButtonTextSelected,
                   ]}
                 >
                   ${amount}
@@ -116,11 +121,17 @@ const SevaScreen = ({ navigation }) => {
               </Pressable>
             ))}
             <Pressable
-              style={[styles.amountButton, isOtherSelected && styles.amountButtonSelected]}
+              style={[
+                styles.amountButton,
+                isOtherSelected && styles.amountButtonSelected,
+              ]}
               onPress={() => setIsOtherSelected(true)}
             >
               <CustomText
-                style={[styles.amountButtonText, isOtherSelected && styles.amountButtonTextSelected]}
+                style={[
+                  styles.amountButtonText,
+                  isOtherSelected && styles.amountButtonTextSelected,
+                ]}
               >
                 Other
               </CustomText>
@@ -130,7 +141,9 @@ const SevaScreen = ({ navigation }) => {
           {/* Custom Amount Input - Shows when Other is selected */}
           {isOtherSelected && (
             <View style={styles.customAmountContainer}>
-              <CustomText style={styles.customAmountLabel}>Enter Amount:</CustomText>
+              <CustomText style={styles.customAmountLabel}>
+                Enter Amount:
+              </CustomText>
               <View style={styles.customAmountInputContainer}>
                 <CustomText style={styles.customAmountCurrency}>$</CustomText>
                 <TextInput
@@ -155,7 +168,9 @@ const SevaScreen = ({ navigation }) => {
                 onPress={() => setFrequency(freq)}
               >
                 <View style={styles.radioButton}>
-                  {frequency === freq && <View style={styles.radioButtonSelected} />}
+                  {frequency === freq && (
+                    <View style={styles.radioButtonSelected} />
+                  )}
                 </View>
                 <CustomText style={styles.frequencyText}>{freq}</CustomText>
               </Pressable>
@@ -176,13 +191,13 @@ const SevaScreen = ({ navigation }) => {
           </CustomText>
         </View>
       </ScrollView>
-      <BottomNavigation activeKey="Seva" context="home" visible={true} />
     </SafeArea>
   );
 };
 
 SevaScreen.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired }).isRequired,
+  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired })
+    .isRequired,
 };
 
 export default SevaScreen;

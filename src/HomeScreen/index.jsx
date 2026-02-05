@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useCallback } from "react";
+import React, { useEffect, useRef, useCallback } from "react";
 import { View } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import PropTypes from "prop-types";
@@ -14,7 +14,6 @@ import {
   StatusBarComponent,
   SafeArea,
   STRINGS,
-  BottomNavigation,
 } from "@common";
 import { setBaniOrder } from "../common/actions";
 import { getLanguages } from "../Settings/components/comon/strings";
@@ -35,10 +34,7 @@ const HomeScreen = React.memo(({ navigation }) => {
   useKeepAwake();
   const { baniLengthSelector } = useBaniLength();
   const dispatch = useDispatch();
-  
-  const [showBottomNav, setShowBottomNav] = useState(true);
   const scrollY = useRef(0);
-  const scrollDirection = useRef(null);
 
   useEffect(() => {
     const validLanguages = getLanguages(STRINGS);
@@ -63,18 +59,6 @@ const HomeScreen = React.memo(({ navigation }) => {
 
   const handleScroll = useCallback((event) => {
     const currentScrollY = event.nativeEvent.contentOffset.y;
-    const delta = currentScrollY - scrollY.current;
-
-    if (delta > 10 && scrollDirection.current !== "down") {
-      // Scrolling down
-      scrollDirection.current = "down";
-      setShowBottomNav(false);
-    } else if (delta < -10 && scrollDirection.current !== "up") {
-      // Scrolling up
-      scrollDirection.current = "up";
-      setShowBottomNav(true);
-    }
-
     scrollY.current = currentScrollY;
   }, []);
 
@@ -106,17 +90,23 @@ const HomeScreen = React.memo(({ navigation }) => {
   ) : (
     <SafeArea backgroundColor={theme.colors.surface} edges={["left", "right"]}>
       <StatusBarComponent backgroundColor={theme.colors.primary} />
-      <View style={[{ backgroundColor: theme.colors.surface }, styles.container]}>
+      <View
+        style={[{ backgroundColor: theme.colors.surface }, styles.container]}
+      >
         <BaniHeader navigate={navigate} />
-        <BaniList data={baniListData} onPress={onPress} onScroll={handleScroll} />
+        <BaniList
+          data={baniListData}
+          onPress={onPress}
+          onScroll={handleScroll}
+        />
       </View>
-      <BottomNavigation activeKey="Home" context="home" visible={showBottomNav} />
     </SafeArea>
   );
 });
 
 HomeScreen.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired }).isRequired,
+  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired })
+    .isRequired,
 };
 
 export default HomeScreen;

@@ -5,12 +5,25 @@ import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import useTheme from "@common/context";
 import useThemedStyles from "@common/hooks/useThemedStyles";
-import { HomeIcon, SettingsIcon, MusicIcon, ReadIcon, DashboardIcon, SevaIcon } from "@common/icons";
+import {
+  HomeIcon,
+  SettingsIcon,
+  MusicIcon,
+  ReadIcon,
+  DashboardIcon,
+  SevaIcon,
+} from "@common/icons";
 import { CustomText, actions, constant, STRINGS, SafeArea } from "@common";
 import createStyles from "./style";
 
-const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
-  const navigation = useNavigation();
+const BottomNavigation = ({
+  activeKey,
+  context = "home",
+  visible = true,
+  navigation: propNavigation,
+}) => {
+  const hookNavigation = useNavigation();
+  const navigation = propNavigation || hookNavigation;
   const dispatch = useDispatch();
   const { theme } = useTheme();
   const styles = useThemedStyles(createStyles);
@@ -176,12 +189,16 @@ const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
   ];
 
   // Choose navigation items based on context
-  const navigationItems = context === "reader" ? readerNavigationItems : homeNavigationItems;
+  const navigationItems =
+    context === "reader" ? readerNavigationItems : homeNavigationItems;
 
   // Filter out Read and Music when on Settings page in reader context, but keep them if previous route was Read
-  const shouldHideReadAndMusic = context === "reader" && isSettings && previousRouteName !== constant.READER;
+  const shouldHideReadAndMusic =
+    context === "reader" && isSettings && previousRouteName !== constant.READER;
   const filteredNavigationItems = shouldHideReadAndMusic
-    ? navigationItems.filter((item) => item.key !== "Read" && item.key !== "Music")
+    ? navigationItems.filter(
+        (item) => item.key !== "Read" && item.key !== "Music"
+      )
     : navigationItems;
 
   return (
@@ -190,7 +207,11 @@ const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
         transform: [{ translateY }],
       }}
     >
-      <SafeArea backgroundColor={theme.colors.primary} edges={["bottom"]} flex={0}>
+      <SafeArea
+        backgroundColor={theme.colors.primary}
+        edges={["bottom"]}
+        flex={0}
+      >
         <View style={[styles.container]}>
           <View style={styles.navigationBar}>
             {filteredNavigationItems.map((item) => {
@@ -199,7 +220,10 @@ const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
               return (
                 <Pressable
                   key={item.key}
-                  style={[styles.iconContainer, item.key === activeKey && styles.activeIconContainer]}
+                  style={[
+                    styles.iconContainer,
+                    item.key === activeKey && styles.activeIconContainer,
+                  ]}
                   onPress={item.handlePress}
                   accessibilityRole="button"
                   accessibilityLabel={`bottomnav-${item.key}`}
@@ -207,7 +231,9 @@ const BottomNavigation = ({ activeKey, context = "home", visible = true }) => {
                   <IconComponent
                     size={24}
                     color={
-                      item.key === activeKey ? theme.colors.primary : theme.staticColors.WHITE_COLOR
+                      item.key === activeKey
+                        ? theme.colors.primary
+                        : theme.staticColors.WHITE_COLOR
                     }
                   />
                   {activeKey !== item.key && (
@@ -227,6 +253,9 @@ BottomNavigation.propTypes = {
   activeKey: PropTypes.string.isRequired,
   context: PropTypes.oneOf(["home", "reader"]),
   visible: PropTypes.bool,
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func,
+  }),
 };
 
 export default BottomNavigation;

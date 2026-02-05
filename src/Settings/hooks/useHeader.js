@@ -8,7 +8,15 @@ import createStyles from "../styles";
 const useHeader = (navigation) => {
   const { theme } = useTheme();
   const { headerTitleStyle, headerStyle } = useThemedStyles(createStyles);
-  const headerLeft = () => <BackIconComponent size={30} color={theme.colors.primaryText} />;
+
+  const handleBackPress = () => {
+    navigation.navigate("Home");
+  };
+
+  const headerLeft = () => (
+    <BackIconComponent size={30} color={theme.colors.primaryText} onPress={handleBackPress} />
+  );
+
   useEffect(() => {
     navigation.setOptions({
       title: STRINGS.Settings,

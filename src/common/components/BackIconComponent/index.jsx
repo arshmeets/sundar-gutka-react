@@ -4,12 +4,16 @@ import { useNavigation } from "@react-navigation/native";
 import PropTypes from "prop-types";
 import { BackArrowIcon } from "@common/icons";
 
-const BackIconComponent = ({ size, color }) => {
+const BackIconComponent = ({ size, color, onPress }) => {
   const navigation = useNavigation();
 
   const handleBackPress = useCallback(() => {
-    navigation.goBack();
-  }, []);
+    if (onPress) {
+      onPress();
+    } else {
+      navigation.goBack();
+    }
+  }, [onPress, navigation]);
 
   return (
     <Pressable onPress={handleBackPress}>
@@ -24,6 +28,7 @@ BackIconComponent.defaultProps = {
 BackIconComponent.propTypes = {
   size: PropTypes.number,
   color: PropTypes.string.isRequired,
+  onPress: PropTypes.func,
 };
 
 export default BackIconComponent;

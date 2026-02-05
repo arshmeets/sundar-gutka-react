@@ -7,7 +7,6 @@ import {
   CustomText,
   useTheme,
   useThemedStyles,
-  BottomNavigation,
   STRINGS,
 } from "@common";
 import { BackArrowIcon } from "@common/icons";
@@ -18,7 +17,7 @@ const DashboardScreen = ({ navigation }) => {
   const styles = useThemedStyles(createStyles);
 
   const handleBackPress = () => {
-    navigation.goBack();
+    navigation.navigate("Home");
   };
 
   return (
@@ -29,21 +28,25 @@ const DashboardScreen = ({ navigation }) => {
           <Pressable onPress={handleBackPress} style={styles.backButton}>
             <BackArrowIcon size={25} color={theme.staticColors.WHITE_COLOR} />
           </Pressable>
-          <CustomText style={styles.headerTitle}>{STRINGS.DASHBOARD}</CustomText>
+          <CustomText style={styles.headerTitle}>
+            {STRINGS.DASHBOARD}
+          </CustomText>
           <View style={styles.headerSpacer} />
         </View>
       </SafeArea>
-      <View style={[{ backgroundColor: theme.colors.surface }, styles.container]}>
+      <View
+        style={[{ backgroundColor: theme.colors.surface }, styles.container]}
+      >
         <CustomText style={styles.title}>{STRINGS.DASHBOARD}</CustomText>
         <CustomText style={styles.subtitle}>Coming Soon</CustomText>
       </View>
-      <BottomNavigation activeKey="Dashboard" context="home" />
     </SafeArea>
   );
 };
 
 DashboardScreen.propTypes = {
-  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired }).isRequired,
+  navigation: PropTypes.shape({ navigate: PropTypes.func.isRequired })
+    .isRequired,
 };
 
 export default DashboardScreen;

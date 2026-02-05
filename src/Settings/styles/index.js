@@ -6,6 +6,28 @@ const createStyles = (theme) => ({
   headerStyle: {
     backgroundColor: theme.colors.surface,
   },
+  header: {
+    backgroundColor: theme.colors.primary,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+  },
+  backButton: {
+    padding: 8,
+    width: 40,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: theme.staticColors.WHITE_COLOR,
+    flex: 1,
+    textAlign: "center",
+  },
+  headerSpacer: {
+    width: 40,
+  },
   nightBackColor: { backgroundColor: theme.staticColors.NIGHT_BLACK },
   iconStyle: { alignSelf: "flex-start" },
   imageStyle: {},
