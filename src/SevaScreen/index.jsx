@@ -217,11 +217,17 @@ const SevaScreen = ({ navigation }) => {
     return (
       <SafeArea backgroundColor={theme.colors.surface} edges={["left", "right"]}>
         <StatusBarComponent />
-        <View style={[styles.centered, { flex: 1, backgroundColor: "#FFF8E7" }]}>
+        <View style={[styles.centered, { flex: 1, backgroundColor: "#FFF8E7", paddingTop: 48, paddingHorizontal: 24 }]}>
           <CustomText style={styles.title}>ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ</CustomText>
-          <CustomText style={styles.description}>
+          <CustomText style={[styles.description, { textAlign: "center" }]}>
             Your monthly seva is making a difference. Thank you for your continued support.
           </CustomText>
+          <Pressable
+            style={[styles.donateButton, { marginTop: 32 }]}
+            onPress={() => dispatch(actions.clearDonorState())}
+          >
+            <CustomText style={styles.donateButtonText}>Donate Again</CustomText>
+          </Pressable>
         </View>
       </SafeArea>
     );
