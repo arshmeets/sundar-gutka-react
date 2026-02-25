@@ -68,19 +68,35 @@ export const getSevaConfig = async () => {
 };
 
 /**
- * Builds a Qgiv prefill URL from donor details and donation amount.
+ * Builds a Qgiv prefill URL using Qgiv's path-segment format.
+ *
+ * Qgiv URL shortcuts stack as path segments:
+ *   /amount/[value]          – selects a preset suggested amount on the form
+ *   /amount/other/[value]    – pre-fills the "other amount" field
+ *   /frequency/[letter]      – m=monthly, a=annually, w=weekly, q=quarterly, s=semiannually
  *
  * @param {Object} params
  * @param {number} params.amount
+ * @param {boolean} params.isCustomAmount  - true when the donor typed a custom value
  * @param {'one_time'|'recurring'} params.donationType
+ * @param {'Monthly'|'Annually'} [params.frequency]
  * @returns {string}
  */
-export const buildQgivUrl = ({ amount, donationType }) => {
-  // TODO: retrieve the real Qgiv form ID from config/API
-  const BASE_URL = "https://secure.qgiv.com/for/khalisfoundation";
-  const params = new URLSearchParams({
-    amount: String(amount),
-    recurring: donationType === "recurring" ? "1" : "0",
-  });
-  return `${BASE_URL}?${params.toString()}`;
+export const buildQgivUrl = ({ amount, isCustomAmount = false, donationType, frequency }) => {
+  // TODO: replace with the real Qgiv form key
+  let url = "https://secure.qgiv.com/for/khalisfoundation";
+
+  // Amount segment
+  if (amount) {
+    const formatted = Number(amount).toFixed(2);
+    url += isCustomAmount ? `/amount/other/${formatted}` : `/amount/${formatted}`;
+  }
+
+  // Frequency segment (only for recurring)
+  if (donationType === "recurring") {
+    const freqLetter = frequency === "Annually" ? "a" : "m"; // default monthly
+    url += `/frequency/${freqLetter}`;
+  }
+
+  return url;
 };

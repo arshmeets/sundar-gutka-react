@@ -180,7 +180,9 @@ const SevaScreen = ({ navigation }) => {
 
     const url = buildQgivUrl({
       amount,
+      isCustomAmount: isOtherSelected,
       donationType: effectiveDonationType,
+      frequency,
     });
 
     Linking.openURL(url).catch(() => {
