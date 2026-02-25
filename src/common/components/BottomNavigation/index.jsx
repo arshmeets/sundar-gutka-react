@@ -14,6 +14,7 @@ import {
   SevaIcon,
 } from "@common/icons";
 import { CustomText, actions, constant, STRINGS, SafeArea } from "@common";
+import { getSevaConfig } from "../../../services/sevaConfig";
 import createStyles from "./style";
 
 const BottomNavigation = ({
@@ -30,6 +31,7 @@ const BottomNavigation = ({
   const isAudio = useSelector((state) => state.isAudio);
   const [isSettings, setIsSettings] = useState(false);
   const [previousRouteName, setPreviousRouteName] = useState(null);
+  const [showSevaDot, setShowSevaDot] = useState(false);
   const translateY = useRef(new Animated.Value(0)).current;
 
   // Helper function to get current route name
@@ -46,6 +48,15 @@ const BottomNavigation = ({
       useNativeDriver: true,
     }).start();
   }, [visible, translateY]);
+
+  // Load seva dot state from config
+  useEffect(() => {
+    let cancelled = false;
+    getSevaConfig().then((cfg) => {
+      if (!cancelled) setShowSevaDot(!!cfg?.showSevaDot);
+    }).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const updateIsSettings = () => {
@@ -118,6 +129,7 @@ const BottomNavigation = ({
     {
       key: "Seva",
       icon: SevaIcon,
+      showDot: showSevaDot,
       handlePress: () => {
         navigation.navigate(constant.SEVA);
       },
@@ -228,14 +240,31 @@ const BottomNavigation = ({
                   accessibilityRole="button"
                   accessibilityLabel={`bottomnav-${item.key}`}
                 >
-                  <IconComponent
-                    size={24}
-                    color={
-                      item.key === activeKey
-                        ? theme.colors.primary
-                        : theme.staticColors.WHITE_COLOR
-                    }
-                  />
+                  <View style={{ position: "relative" }}>
+                    <IconComponent
+                      size={24}
+                      color={
+                        item.key === activeKey
+                          ? theme.colors.primary
+                          : theme.staticColors.WHITE_COLOR
+                      }
+                    />
+                    {!!item.showDot && (
+                      <View
+                        style={{
+                          position: "absolute",
+                          top: -3,
+                          right: -3,
+                          width: 10,
+                          height: 10,
+                          borderRadius: 5,
+                          backgroundColor: "#E53E3E",
+                          borderWidth: 1.5,
+                          borderColor: theme.colors.primary,
+                        }}
+                      />
+                    )}
+                  </View>
                   {activeKey !== item.key && (
                     <CustomText style={styles.iconText}>{item.text}</CustomText>
                   )}

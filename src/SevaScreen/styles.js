@@ -5,6 +5,7 @@ const createStyles = (theme) =>
     scrollView: {
       flex: 1,
       backgroundColor: "#FFF8E7", // Cream/beige background
+      paddingTop: 16,
     },
     scrollContent: {
       flexGrow: 1,

@@ -1,27 +1,12 @@
 import React from "react";
-import Svg, { Path, Circle } from "react-native-svg";
+import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
-import { colors } from "@common";
 
-const MusicIcon = ({ size = 24, color = colors.WHITE, isActive = false }) => (
-  <Svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-    <Path
-      d="M9 18V5l12-2v13"
-      stroke={color}
-      strokeWidth={isActive ? 2 : 1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      fill="none"
-    />
-    <Circle cx="6" cy="18" r="3" stroke={color} strokeWidth={isActive ? 2 : 1.5} fill="none" />
-    <Circle cx="18" cy="16" r="3" stroke={color} strokeWidth={isActive ? 2 : 1.5} fill="none" />
+const MusicIcon = ({ size = 24, color = "currentColor" }) => (
+  <Svg width={size} height={size} fill="none" stroke={color} strokeWidth="1.5" viewBox="0 0 24 24" strokeLinecap="round" strokeLinejoin="round" xmlns="http://www.w3.org/2000/svg">
+    <Path d="M3 18a2 2 0 1 0 4 0 2 2 0 0 0-4 0M17 16a2 2 0 1 0 4 0 2 2 0 0 0-4 0M7 18V7l13-3v10" />
+    <Path d="M7 11l13-3" />
   </Svg>
 );
-
-MusicIcon.propTypes = {
-  size: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
-  isActive: PropTypes.bool.isRequired,
-};
-
+MusicIcon.propTypes = { size: PropTypes.number, color: PropTypes.string };
 export default MusicIcon;

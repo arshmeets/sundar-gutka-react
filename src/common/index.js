@@ -22,6 +22,8 @@ import {
   trackAudioEvent,
   trackArtistListeningDuration,
   trackArtist,
+  trackSevaEvent,
+  SEVA_FUNNEL_STEPS,
 } from "./firebase/analytics";
 import { logError, initializeCrashlytics, setCustomKey, logMessage } from "./firebase/crashlytics";
 import {
@@ -113,4 +115,6 @@ export {
   useBackHandler,
   trackArtistListeningDuration,
   trackArtist,
+  trackSevaEvent,
+  SEVA_FUNNEL_STEPS,
 };

@@ -1,9 +1,8 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
-import { colors } from "@common";
 
-const HomeIcon = ({ size = 24, color = colors.WHITE }) => (
+const HomeIcon = ({ size = 24, color = "currentColor" }) => (
   <Svg
     width={size}
     height={size}
@@ -19,10 +18,5 @@ const HomeIcon = ({ size = 24, color = colors.WHITE }) => (
     <Path d="M9.5 21v-5.5a2 2 0 0 1 2-2h1a2 2 0 0 1 2 2V21" />
   </Svg>
 );
-
-HomeIcon.propTypes = {
-  size: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
-};
-
+HomeIcon.propTypes = { size: PropTypes.number, color: PropTypes.string };
 export default HomeIcon;

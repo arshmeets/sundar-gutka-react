@@ -8,6 +8,8 @@ export const createIconsMock = (iconOverrides = {}) => ({
   SettingsIcon: () => null,
   MusicIcon: () => null,
   ReadIcon: () => null,
+  DashboardIcon: () => null,
+  SevaIcon: () => null,
   ArrowRightIcon: () => null,
   BackArrowIcon: () => null,
   BookmarkIcon: () => null,

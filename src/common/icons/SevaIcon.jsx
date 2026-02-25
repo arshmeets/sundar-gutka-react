@@ -1,9 +1,8 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg";
 import PropTypes from "prop-types";
-import { colors } from "@common";
 
-const SevaIcon = ({ size = 24, color = colors.WHITE }) => (
+const SevaIcon = ({ size = 24, color = "currentColor" }) => (
   <Svg
     width={size}
     height={size}
@@ -15,13 +14,8 @@ const SevaIcon = ({ size = 24, color = colors.WHITE }) => (
     strokeLinejoin="round"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <Path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+    <Path d="M7.75 3.5C5.127 3.5 3 5.76 3 8.547 3 14.125 12 20.5 12 20.5s9-6.375 9-11.953C21 5.094 18.873 3.5 16.25 3.5c-1.86 0-3.47 1.136-4.25 2.79-.78-1.654-2.39-2.79-4.25-2.79" />
   </Svg>
 );
-
-SevaIcon.propTypes = {
-  size: PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
-};
-
+SevaIcon.propTypes = { size: PropTypes.number, color: PropTypes.string };
 export default SevaIcon;

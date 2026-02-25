@@ -208,3 +208,12 @@ export const clearAudioProgress = (baniId) => {
     payload: { baniId },
   };
 };
+
+export const setDonorState = (payload) => ({
+  type: actionTypes.SET_DONOR_STATE,
+  payload,
+});
+
+export const clearDonorState = () => ({
+  type: actionTypes.CLEAR_DONOR_STATE,
+});

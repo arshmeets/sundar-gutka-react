@@ -46,3 +46,7 @@ export const SET_AUDIO_MANIFEST = "SET_AUDIO_MANIFEST";
 // Audio progress actions
 export const SET_AUDIO_PROGRESS = "SET_AUDIO_PROGRESS";
 export const CLEAR_AUDIO_PROGRESS = "CLEAR_AUDIO_PROGRESS";
+
+// Donor state actions
+export const SET_DONOR_STATE = "SET_DONOR_STATE";
+export const CLEAR_DONOR_STATE = "CLEAR_DONOR_STATE";

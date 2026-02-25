@@ -236,6 +236,18 @@ const currentBani = createReducer(null, {
   [actionTypes.SET_CURRENT_BANI]: (state, action) => action.value,
 });
 
+const DONOR_DEFAULT = {
+  donor: false,
+  donorType: "unknown",
+  lastDonationAt: null,
+  donorSource: "unknown",
+};
+
+const donorState = createReducer(DONOR_DEFAULT, {
+  [actionTypes.SET_DONOR_STATE]: (state, action) => ({ ...DONOR_DEFAULT, ...action.payload }),
+  [actionTypes.CLEAR_DONOR_STATE]: () => ({ ...DONOR_DEFAULT }),
+});
+
 const rootReducer = combineReducers({
   isNightMode,
   fontSize,
@@ -279,5 +291,6 @@ const rootReducer = combineReducers({
   audioManifest,
   audioProgress,
   currentBani,
+  donorState,
 });
 export default rootReducer;

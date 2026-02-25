@@ -129,6 +129,33 @@ export const safeAnalyticsOperation = (operation) => {
   }
 };
 
+/** Ordered list of Seva donation funnel steps for abandon tracking. */
+export const SEVA_FUNNEL_STEPS = [
+  "landing",
+  "donation_type_selected",
+  "amount_selected",
+  "next_clicked",
+  "donor_details_completed",
+  "payment_started",
+  "payment_success",
+];
+
+/**
+ * Tracks a Seva funnel event via Firebase Analytics.
+ * @param {string} eventName - One of the SEVA_FUNNEL_STEPS values or a custom event name.
+ * @param {Object} [params={}] - Additional event parameters.
+ */
+export const trackSevaEvent = async (eventName, params = {}) => {
+  try {
+    const sanitized = Object.fromEntries(
+      Object.entries(params).map(([k, v]) => [k, String(v ?? "")])
+    );
+    await logEvent(analytics, `seva_${eventName}`, sanitized);
+  } catch {
+    // Swallow analytics errors silently
+  }
+};
+
 export {
   allowTracking,
   trackReaderEvent,

@@ -27,6 +27,8 @@ export const createCommonMock = (overrides = {}) => {
     constant: {
       READER: "Reader",
       SETTINGS: "Settings",
+      SEVA: "Seva",
+      DASHBOARD: "Dashboard",
       defaultBani: { id: "default" },
       ...overrides.constant,
     },
@@ -35,6 +37,8 @@ export const createCommonMock = (overrides = {}) => {
       READ: "Read",
       MUSIC: "Audio",
       SETTINGS: "Settings",
+      SEVA: "Seva",
+      DASHBOARD: "Dashboard",
       ...overrides.STRINGS,
     },
     ...overrides,
