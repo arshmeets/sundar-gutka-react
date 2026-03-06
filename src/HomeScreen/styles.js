@@ -3,23 +3,23 @@ const createStyles = (theme) => ({
     flex: 1,
   },
   header: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: theme.colors.surface,
   },
   fateh: {
-    color: theme.staticColors.WHITE_COLOR,
+    color: "#326194",
     fontSize: theme.typography.sizes.xl,
     textAlign: "center",
     margin: theme.spacing.sm,
   },
   headerDesign: {
     fontSize: theme.typography.sizes.massive,
-    color: theme.staticColors.WHITE_COLOR,
+    color: theme.colors.surface,
     fontFamily: theme.typography.fonts.gurbaniPrimary,
   },
   headerTitle: {
     fontSize: theme.typography.sizes.huge,
-    color: theme.staticColors.WHITE_COLOR,
-    fontWeight: theme.typography.weights.medium,
+    color: theme.colors.primary,
+    fontWeight: theme.typography.weights.bold,
   },
   titleContainer: {
     textAlign: "center",
@@ -31,7 +31,7 @@ const createStyles = (theme) => ({
     right: theme.spacing.sm,
   },
   headerFatehStyle: {
-    color: theme.staticColors.WHITE_COLOR,
+    color: "#326194",
     fontSize: theme.typography.sizes.xl,
   },
   fatehContainer: {
@@ -40,8 +40,12 @@ const createStyles = (theme) => ({
   },
   ikongkar: {
     fontFamily: theme.typography.fonts.gurbaniPrimary,
-    color: theme.staticColors.WHITE_COLOR,
+    color: "#326194",
     fontSize: theme.typography.sizes.xxl,
+  },
+  headerContainer: {
+    backgroundColor: theme.colors.surface,
+    paddingBottom: theme.spacing.md,
   },
 });
 

@@ -1,0 +1,16 @@
+{
+  "version": "0.2.4",
+  "name": "sundar-gutka-react",
+  "path": "/Users/arshmeetsingh/Projects/GitHub/sundar-gutka-react",
+  "stats": {
+    "files": 226,
+    "symbols": 441,
+    "relationships": 2829,
+    "clusters": 22,
+    "flows": 10,
+    "dead_code": 150,
+    "coupled_pairs": 868,
+    "embeddings": 667
+  },
+  "last_indexed_at": "2026-03-04T20:33:17.156481+00:00"
+}

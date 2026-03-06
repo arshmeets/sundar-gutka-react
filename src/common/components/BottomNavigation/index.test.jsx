@@ -1,7 +1,8 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react-native";
 import { Provider } from "react-redux";
+
 import { configureStore } from "@reduxjs/toolkit";
+import { render, fireEvent } from "@testing-library/react-native";
 
 import BottomNavigation from "./index";
 
@@ -18,9 +19,7 @@ jest.mock("../../../services/sevaConfig", () => ({
 jest.mock("@common", () => require("@common/test-utils/mocks/common").createCommonMock());
 
 // Mock @common/icons
-jest.mock("@common/icons", () =>
-  require("@common/test-utils/mocks/icons").createIconsMock()
-);
+jest.mock("@common/icons", () => require("@common/test-utils/mocks/icons").createIconsMock());
 
 // Mock hooks
 jest.mock("@common/context", () => ({
@@ -56,13 +55,14 @@ const makeStore = (isAudio = false) =>
     reducer: {
       isAudio: (state = isAudio, action) =>
         action.type === "TOGGLE_AUDIO"
-          ? (action.value !== undefined ? action.value : action.payload)
+          ? action.value !== undefined
+            ? action.value
+            : action.payload
           : state,
       isAutoScroll: (state = true) => state,
       donorState: () => ({ donor: false, donorType: "unknown" }),
     },
   });
-
 
 const renderNav = (props = {}, isAudio = false) =>
   render(

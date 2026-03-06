@@ -36,11 +36,9 @@ const FILLER_CONFIG = {
       "that builds software like Sundar Gutka and SikhiToTheMax. Khalis helps " +
       "millions of Sikhs around the world connect with Gurbani. You can be part " +
       "of this seva as well; serve millions with a single donation.",
-    taxMessage:
-      "Your donation is tax-deductible. You will receive a receipt via email.",
+    taxMessage: "Your donation is tax-deductible. You will receive a receipt via email.",
     nonUsTaxMessage: "Thank you for your generous support of Khalis Foundation.",
-    footerText:
-      "Know coding? You can also do seva through open source contributions.",
+    footerText: "Know coding? You can also do seva through open source contributions.",
     donatedHeadline: "ਵਾਹਿਗੁਰੂ ਜੀ ਕਾ ਖਾਲਸਾ",
     donatedDescription:
       "Thank you for your generous support. Your seva helps Sikhs around the world connect with Gurbani.",

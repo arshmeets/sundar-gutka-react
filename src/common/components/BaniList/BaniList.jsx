@@ -49,7 +49,6 @@ const BaniList = React.memo(({ data, onPress, onScroll }) => {
     (row) => {
       return (
         <ListItem
-          bottomDivider
           containerStyle={{
             backgroundColor: theme.colors.surface,
           }}
@@ -65,7 +64,7 @@ const BaniList = React.memo(({ data, onPress, onScroll }) => {
             <ListItemTitle
               title={getBaniTuk(row)}
               style={[
-                { color: theme.colors.primaryText },
+                { color: theme.colors.primary, fontWeight: "bold" },
                 {
                   fontSize: baseFontSize(fontSize, isTransliteration),
                   fontFamily: !isTransliteration ? fontFace : null,
