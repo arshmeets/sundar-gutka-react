@@ -24,11 +24,15 @@ const BaniHeader = ({ navigate }) => {
         </View>
       </View>
       <LinearGradient
-        colors={[
-          "rgba(17, 57, 121, 0)",
-          theme.colors.primary,
-          "rgba(17, 57, 121, 0)",
-        ]}
+        colors={
+          theme.mode === "dark"
+            ? ["rgba(119, 186, 255, 0)", "#77baff", "rgba(119, 186, 255, 0)"]
+            : [
+                "rgba(17, 57, 121, 0)",
+                theme.colors.primary,
+                "rgba(17, 57, 121, 0)",
+              ]
+        }
         start={{ x: 0, y: 0.5 }}
         end={{ x: 1, y: 0.5 }}
         style={{ height: 1.5, width: "100%", opacity: 0.8 }}

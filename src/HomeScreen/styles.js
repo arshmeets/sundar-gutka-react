@@ -18,7 +18,7 @@ const createStyles = (theme) => ({
   },
   headerTitle: {
     fontSize: theme.typography.sizes.huge,
-    color: theme.colors.primary,
+    color: theme.mode === "dark" ? theme.colors.primaryText : theme.colors.primary,
     fontWeight: theme.typography.weights.bold,
   },
   titleContainer: {

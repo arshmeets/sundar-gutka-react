@@ -64,7 +64,13 @@ const BaniList = React.memo(({ data, onPress, onScroll }) => {
             <ListItemTitle
               title={getBaniTuk(row)}
               style={[
-                { color: theme.colors.primary, fontWeight: "bold" },
+                {
+                  color:
+                    theme.mode === "dark"
+                      ? theme.colors.primaryText
+                      : theme.colors.primary,
+                  fontWeight: "bold",
+                },
                 {
                   fontSize: baseFontSize(fontSize, isTransliteration),
                   fontFamily: !isTransliteration ? fontFace : null,
